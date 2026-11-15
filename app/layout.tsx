@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "../components/theme-provider";
-import Script from "next/script";
+import { Providers } from "@/components/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,24 +23,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <Script id="theme-init" strategy="beforeInteractive">
-        {`
-    try {
-      const savedTheme = localStorage.getItem("theme");
-
-      if (savedTheme === "dark") {
-        document.documentElement.classList.add("dark");
-      }
-    } catch (error) {
-      console.error("Theme initialization failed", error);
-    }
-  `}
-      </Script>
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>
+        <Providers>
           {children}
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
